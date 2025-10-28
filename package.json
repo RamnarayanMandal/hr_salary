@@ -1,0 +1,55 @@
+{
+  "name": "hr-salary-api",
+  "version": "1.0.0",
+  "description": "REST API to calculate and manage employee salaries, attendance, and payroll using Node.js, TypeScript, Express, and Prisma.",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev",
+    "prisma:studio": "prisma studio",
+    "setup:db": "ts-node scripts/setup-db.ts",
+    "setup": "npm run prisma:generate && npm run prisma:migrate && npm run setup:db"
+  },
+  "keywords": [
+    "nodejs",
+    "typescript",
+    "express",
+    "prisma",
+    "postgresql",
+    "mysql",
+    "salary",
+    "hr",
+    "payroll",
+    "rest-api"
+  ],
+  "author": "Ramnarayan Mandal",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^6.0.0",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "joi": "^17.11.0",
+    "jsonwebtoken": "^9.0.2",
+    "prisma": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.4",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/jsonwebtoken": "^9.0.5",
+    "@types/node": "^22.7.6",
+    "jest": "^29.7.0",
+    "ts-node-dev": "^2.0.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.5.4"
+  }
+}

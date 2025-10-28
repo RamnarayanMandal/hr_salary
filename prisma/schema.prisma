@@ -1,0 +1,87 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String
+  fullName  String
+  roles     Role     @default(EMPLOYEE)
+  employee  Employee?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+
+model Employee {
+  id           Int       @id @default(autoincrement())
+  userId       Int?      @unique
+  user         User?     @relation(fields: [userId], references: [id])
+  firstName    String
+  lastName     String
+  email        String    @unique
+  phone        String?
+  joinDate     DateTime
+  basicSalary  Float
+  hra          Float
+  allowances   Float
+  workingDays  Int       @default(22)
+  isActive     Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  attendances  Attendance[]
+  payrolls     Payroll[]
+}
+
+model Attendance {
+  id           Int      @id @default(autoincrement())
+  employeeId   Int
+  employee     Employee @relation(fields: [employeeId], references: [id])
+  date         DateTime
+  hoursWorked  Float
+  status       String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+
+model Payroll {
+  id              Int      @id @default(autoincrement())
+  employeeId      Int
+  employee        Employee @relation(fields: [employeeId], references: [id])
+  month           Int
+  year            Int
+  grossSalary     Float
+  deductions      Float
+  taxDeductions   Float
+  pfDeductions    Float
+  otherDeductions Float
+  netSalary       Float
+  paymentDate     DateTime
+  fulldays        Int
+  halfdays        Int
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@unique([employeeId, month, year])
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  EMPLOYEE
+}
